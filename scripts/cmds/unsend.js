@@ -7,17 +7,17 @@ this.config = {
   },
   cooldowns: 5,
   role: 0,
-  shortDescription: "Gỡ tin nhắn của bot",
-  longDescription: "Gỡ tin nhắn của bot",
+  shortDescription: "Remove bot messages",
+  longDescription: "Remove bot messages",
   category: "info",
-  guide: "Reply tin nhắn của bot với nội dung {p}{n}"
+  guide: "Reply to bot's message with content {p}{n}"
 };
 
 module.exports = {
   config: this.config,
   start: async function({ message, api, event, args, globalGoat }) {
-		if (event.type != "message_reply") return message.reply('Vui lòng reply tin nhắn của bot cần gỡ');
-    if (event.messageReply.senderID != globalGoat.botID) return message.reply('Không thể gỡ tin nhắn của người khác!!');
+		if (event.type != "message_reply") return message.reply('Please reply to the bot's message to be removed');
+    if (event.messageReply.senderID != globalGoat.botID) return message.reply('Can't remove other people's messages!!');
 	  return api.unsendMessage(event.messageReply.messageID);
   }
 };
