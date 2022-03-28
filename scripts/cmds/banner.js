@@ -2,15 +2,15 @@ this.config = {
   name: "banner",
   version: "1.0.3",
   author: {
-    name: "NTKhang", 
+    name: "Axczel", 
     contacts: ""
   },
   cooldowns: 5,
   role: 0,
-  shortDescription: "Tạo banner dịch vụ online",
-  longDescription: "Tạo ảnh bìa hỗ trợ dịch vụ online",
+  shortDescription: "Create online service banners",
+  longDescription: "Create cover photo to support online service",
   category: "image",
-  guide: "{prefix}banner <facebook> | <zalo> | <phone> | <momo> | <title> | <subtitle> | <titlefacebook> | <info> | [<link ảnh> | hoặc reply hình ảnh]"
+  guide: "{prefix}banner <facebook> | <zalo> | <phone> | <momo> | <title> | <subtitle> | <titlefacebook> | <info> | [<photo link> | or reply to pictures]"
 };
 
 module.exports = {
@@ -30,10 +30,10 @@ module.exports = {
     titlefacebook       = content[6],
     info                = content[7];
     const avatarurl     = event.messageReply ? ((event.messageReply.attachments.length > 0) ? event.messageReply.attachments[0].url : content[8]) : content[8];
-    if (!avatarurl || !avatarurl.includes("http")) return message.reply(`Vui lòng nhập link hình ảnh hợp lệ, sử dụng help ${this.config.name} để xem chi tiết cách sử dụng lệnh`);
+    if (!avatarurl || !avatarurl.includes("http")) return message.reply(`Please enter a valid image link, use help ${this.config.name} for details on how to use the command`);
     const params = { facebook, zalo, phone, momo, title, subtitle, titlefacebook, info, avatarurl, apikey };
     for (const i in params) if (!params[i]) return message.SyntaxError();
-    message.reply(`Đang khởi tạo hình ảnh, vui lòng chờ đợi...`);
+    message.reply(`Initializing image, please wait...`);
    
     axios.get("https://goatbot.tk/taoanhdep/banner1", {
       params,
@@ -49,7 +49,7 @@ module.exports = {
     })
     .catch(error => {
       const err = error.response ? JSON.parse(error.response.data.toString()) : error;
-      return message.reply(`Đã xảy ra lỗi ${err.name} ${err.message}`);
+      return message.reply(`An error occurred ${err.name} ${err.message}`);
     });
   }
 };
