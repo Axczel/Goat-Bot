@@ -7,18 +7,18 @@ this.config = {
   },
   cooldowns: 5,
   role: 0,
-  shortDescription: "chỉnh sửa nội dung tin nhắn chào mừng",
-  longDescription: "chỉnh sửa nội dung tin nhắn chào mừng thành viên mới tham gia vào nhóm chat của bạn",
+  shortDescription: "edit the text of the welcome message",
+  longDescription: "edit the text of the message to welcome new members to your chat group",
   category: "custom",
-  guide: "{p}{n} text [<nội dung>|reset]: chỉnh sửa nội dung văn bản hoặc reset về mặc định, những shortcut có sẵn:"
-       + "\n+ {userName}: tên của thành viên mới"
-       + "\n+ {boxName}:  tên của nhóm chat"
-       + "\n+ {multiple}: bạn || các bạn"
-       + "\n+ {session}:  buổi trong ngày"
-       + "\n* Ví dụ: {p}{n} text Hello {userName}, welcome to {boxName}, chúc {multiple} một ngày mới vui vẻ"
+  guide: "{p}{n} text [<content>|reset]: Edit text content or reset to default, available shortcuts:"
+       + "\n+ {userName}: new member's name"
+       + "\n+ {boxName}:  the name of the chat group"
+       + "\n+ {multiple}: you || you"
+       + "\n+ {session}:  session of the day"
+       + "\n* For example: {p}{n} text Hello {userName}, welcome to {boxName}, chúc {multiple} a new day fun"
        + "\n"
-       + "\nReply (phản hồi) một tin nhắn có file với nội dung {p}{n} file: để gửi file đó khi có thành viên mới (ảnh, video, audio)"
-       + "\n{p}{n} file reset: xóa gửi file"
+       + "\nReply (feedback) a message with a file with the content {p}{n} file: to send that file when there is a new member (photo, video, audio)"
+       + "\n{p}{n} file reset: delete send file"
 };
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
     const data = (await threadsData.getData(threadID)).data;
     
     if (args[0] == "text") {
-      if (!args[1]) return message.reply("Vui lùng nhập nội dung tin nhắn");
+      if (!args[1]) return message.reply("Please enter message text");
       else if (args[1] == "reset") data.welcomeMessage = null;
       else data.welcomeMessage = args.slice(1).join(" ");
     }
@@ -59,8 +59,8 @@ module.exports = {
     await threadsData.setData(threadID, {
       data
     }, (err, info) => {
-      if (err) return message.reply(`Đã xảy ra lỗi, vui lòng thử lại sau: ${err.name}: ${err.message}`);
-      message.reply(`Đã lưu thay đổi của bạn`);
+      if (err) return message.reply(`An error occurred, please try again later: ${err.name}: ${err.message}`);
+      message.reply(`Saved your changes`);
     });
     
   }
