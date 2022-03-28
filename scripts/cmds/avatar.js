@@ -7,11 +7,11 @@ this.config = {
   },
   cooldowns: 5,
   role: 0, 
-  shortDescription: "tạo avatar anime",
-  longDescription: "tạo avatar anime với chữ ký",
+  shortDescription: "create anime avatar",
+  longDescription: "create anime avatar with signature",
   category: "image",
   guide: {
-    body: "{p}{n} <mã số nhân vật hoặc tên nhân vật> | <chữ nền> | <chữ ký> | <tên màu tiếng anh hoặc mã màu nền (hex color)>\n{p}{n} help: xem cách dùng lệnh",
+    body: "{p}{n} <character code or character name> | <background text> | <signature> | <English color name or background color code (hex color)>\n{p}{n} help: see how to use the command",
     attachment: {
       [__dirname+"/cache/hexcolor.png"]: "https://seotct.com/wp-content/uploads/2020/03/code-backgroud.png"
     }
@@ -25,7 +25,7 @@ module.exports = {
     const axios = require("axios");
     if (!args[0] || args[0] == "help") message.guideCmd();
     else {
-		  message.reply(`Đang khởi tạo hình ảnh, vui lòng chờ đợi...`);
+		  message.reply(`Image initialization, please wait...`);
 		  const content = args.join(" ").split("|").map(item => item = item.trim());
 		  let idNhanVat, tenNhanvat;
 		  const chu_Nen = content[1];
@@ -36,7 +36,7 @@ module.exports = {
         if (!isNaN(content[0])) {
           idNhanVat = parseInt(content[0]);
           const totalCharacter = dataChracter.length - 1;
-          if (idNhanVat > totalCharacter) return message.reply(`Hiện tại chỉ có ${totalCharacter} nhân vật trên hệ thống, vui lòng nhập id nhân vật nhỏ hơn`);
+          if (idNhanVat > totalCharacter) return message.reply(`Currently only ${totalCharacter} character on system, please enter character id smaller`);
           tenNhanvat = dataChracter[idNhanVat].name;
         }
         else {
@@ -45,12 +45,12 @@ module.exports = {
             idNhanVat = findChracter.stt;
             tenNhanvat = content[0];
           }
-          else return message.reply("Không tìm thấy nhân vật mang tên " + content[0] + " trong danh sách nhân vật");
+          else return message.reply("Cannot find character with name " + content[0] + " in the character list");
         }
       }
       catch(error) {
         const err = error.response.data;
-        return message.reply(`Đã xảy ra lỗi lấy dữ liệu nhân vật:\n${err.name}: ${err.message}`);
+        return message.reply(`There was an error retrieving character data:\n${err.name}: ${err.message}`);
       }
       
       const endpoint = `https://goatbot.tk/taoanhdep/avataranime`;
@@ -68,14 +68,14 @@ module.exports = {
           responseType: "stream"
         });
         message.reply({
-          body: `✅ Avatar của bạn\nNhân vật: ${tenNhanvat}\nMã số: ${idNhanVat}\nChữ nền: ${chu_Nen}\nChữ ký: ${chu_Ky}\nMàu: ${colorBg || "mặc định"}`, 
+          body: `✅ Your Avatar\character: ${tenNhanvat}\nCode: ${idNhanVat}\Text background: ${chu_Nen}\Signature: ${chu_Ky}\nColor: ${colorBg || "default"}`, 
           attachment: response.data
         });
   		}
   		catch(error) {
   		  error.response.data.on("data", function(e) {
           const err = JSON.parse(e);
-          message.reply(`Đã xảy ra lỗi ${err.name}: ${err.message}`);
+          message.reply(`An error occurred ${err.name}: ${err.message}`);
         });
 		  }
 	  }
