@@ -39,7 +39,7 @@ module.exports = {
       let err;
       if (error.response) err = JSON.parse(error.response.data.toString());
       else err = error;
-      return message.reply(`Đã xảy ra lỗi ${err.error} ${err.message}`);
+      return message.reply(`An error occurred ${err.error} ${err.message}`);
     }
     fs.writeFileSync(pathBatSlap, Buffer.from(imgBuffer));
     message.reply({ attachment: fs.createReadStream(pathBatSlap)}, () => fs.unlinkSync(pathBatSlap));
